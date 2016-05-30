@@ -146,8 +146,8 @@ impl Board {
             // Consolidate equal tiles
             if self.data[down(0)] == self.data[down(1)] &&
                 self.data[down(2)] == self.data[down(3)] {
-                    self.score = self.score + self.data[down(0)] * 2;
-                    self.score = self.score + self.data[down(2)] * 2;
+                    self.score += self.data[down(0)] * 2;
+                    self.score += self.data[down(2)] * 2;
                     self.data[down(0)] = self.data[down(0)] * 2;
                     self.data[down(1)] = self.data[down(2)] * 2;
                     self.data[down(2)] = 0;
@@ -157,7 +157,7 @@ impl Board {
 
             if self.data[down(0)] == self.data[down(1)] &&
                 self.data[down(2)] != self.data[down(3)] {
-                    self.score = self.score + self.data[down(0)] * 2;
+                    self.score += self.data[down(0)] * 2;
                     self.data[down(0)] = self.data[down(0)] * 2;
                     self.data[down(1)] = self.data[down(2)];
                     self.data[down(2)] = self.data[down(3)];
@@ -167,7 +167,7 @@ impl Board {
 
             if self.data[down(0)] != self.data[down(1)] &&
                 self.data[down(1)] == self.data[down(2)] {
-                    self.score = self.score + self.data[down(1)] * 2;
+                    self.score += self.data[down(1)] * 2;
                     self.data[down(1)] = self.data[down(1)] * 2;
                     self.data[down(2)] = self.data[down(3)];
                     self.data[down(3)] = 0;
@@ -179,7 +179,7 @@ impl Board {
                 if self.data[down(3)] == 0 {
                     continue 'rowloop;
                 }
-                   self.score = self.score + self.data[down(2)] * 2;
+                   self.score += self.data[down(2)] * 2;
                    self.data[down(2)] = self.data[down(2)] * 2;
                    self.data[down(3)] = 0;
                    continue 'rowloop;
@@ -276,7 +276,7 @@ fn render_about(c: &graphics::Context,
                  "This program uses the Clear Sans font",
                  "distributed under the terms of the Apache 2.0 license",
                  "available at http://www.apache.org/licenses/LICENSE-2.0",];
-    for line in lines.iter() {
+    for line in &lines {
         let width = glyphs.width(12, line);
         let transform = c.transform
             .trans((WINDOW_WIDTH as f64 / 2.0 ) - (width / 2.0),
@@ -286,7 +286,7 @@ fn render_about(c: &graphics::Context,
                   &c.draw_state,
                   transform,
                   g);
-        cr = cr + 14.0;
+        cr += 14.0;
     }    
 }
 
@@ -464,14 +464,13 @@ fn main() {
     board.add_random();
 
     // For development use only 
-    if args.len() > 1 {
-        if args[1] == "-devel_board" || args[1] == "-d" {
-            board.data = [2, 4, 8, 16, 32, 64, 128, 256,
-                          512, 1024, 2048, 4096, 8192, 16384,
-                          0, 0];
-            }
+    if args.len() > 1 && (args[1] == "-devel_board" || args[1] == "-d") {
+        board.data = [2, 4, 8, 16,
+                      32, 64, 128, 256,
+                      512, 1024, 2048, 4096,
+                      8192, 16384, 0, 0];
     }
-
+    
     // Create the main window
     let opengl = OpenGL::V3_2;
     let mut window: PistonWindow =
