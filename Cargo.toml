@@ -1,0 +1,14 @@
+[package]
+name = "r2048"
+version = "0.1.0"
+authors = ["Gregory Katz <gregkatz@gmail.com>"]
+
+[dependencies]
+rand = "0.3"
+piston_window = "0.47.0"
+piston2d-graphics = "0.16.0"
+find_folder = "0.3.0"
+piston-ai_behavior = "0.14.0"
+piston2d-sprite = "0.26.0"
+image = "0.9.0"
+piston = "0.22.0"
