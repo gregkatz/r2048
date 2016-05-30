@@ -537,8 +537,7 @@ fn main() {
                     board = Board::default();
                     board.add_random();
                 },
-                Some(UserInput::About) =>
-                {
+                Some(UserInput::About) => {
                     about = true;
                     draw = true;
                 },
